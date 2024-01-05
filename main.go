@@ -1,40 +1,27 @@
 package main
 
-import (
-	"fmt"
-
-	"github.com/joaofilippe/americanas-desafio/models"
-)
+import "net/http"
 
 func main() {
-	fmt.Println("Hello World")
+	http.HandleFunc("/save_lists", SaveLists)
+	http.HandleFunc("/merge", Merge)
 
-	a := &models.ListNode{
-		Val: 5,
-		Next: &models.ListNode{
-			Val: 6,
-			Next: &models.ListNode{
-				Val: 8,
-			},
-		}}
-
-	b := &models.ListNode{
-		Val: 2,
-		Next: &models.ListNode{
-			Val: 5,
-			Next: &models.ListNode{
-				Val: 6,
-				Next: &models.ListNode{
-					Val:10,
-				},
-			},
-		},
-	}
-
-	list := MergeListNode(a, b)
-
-	fmt.Println(list)
-
+	http.HandleFunc("/", HelloWorld)
+	
+	http.ListenAndServe(":8080", nil)
 }
 
+// HelloWorld is a simple handler
+func HelloWorld(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Hello World!"))
+}
 
+// Merge is a simple handler
+func Merge(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Merge!"))
+}
+
+// SaveLists is a simple handler
+func SaveLists(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("SaveLists!"))
+}
