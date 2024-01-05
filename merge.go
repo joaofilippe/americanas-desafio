@@ -40,3 +40,15 @@ func FromArrayToListNode(array []int) *models.ListNode {
 
 	return list.Next
 }
+
+// FromListNodeToArray convert a ListNode to an array
+func FromListNodeToArray(list *models.ListNode) []int {
+	array := make([]int, 0)
+
+	for list != nil {
+		array = append(array, list.Val)
+		list = list.Next
+	}
+
+	return array
+}

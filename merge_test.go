@@ -5,9 +5,12 @@ import (
 )
 
 func Test_FromArrayToListNode(t *testing.T) {
-	a := []int{1, 2, 3, 4, 5}
+	a := []int{1, 2, 3}
+
+	b := []int{0, 6, 8}
 
 	list := FromArrayToListNode(a)
+	list2 := FromArrayToListNode(b)
 
 	if list.Val != 1 {
 		t.Errorf("Expected 1, got %d", list.Val)
@@ -21,11 +24,16 @@ func Test_FromArrayToListNode(t *testing.T) {
 		t.Errorf("Expected 3, got %d", list.Next.Next.Val)
 	}
 
-	if list.Next.Next.Next.Val != 4 {
-		t.Errorf("Expected 4, got %d", list.Next.Next.Next.Val)
+	if list2.Val != 0 {
+		t.Errorf("Expected 0, got %d", list2.Val)
 	}
 
-	if list.Next.Next.Next.Next.Val != 5 {
-		t.Errorf("Expected 5, got %d", list.Next.Next.Next.Next.Val)
-	}
+	if list2.Next.Val != 6 {
+		t.Errorf("Expected 6, got %d", list2.Next.Val)
+	}	
+
+	if list2.Next.Next.Val != 8 {
+		t.Errorf("Expected 8, got %d", list2.Next.Next.Val)
+	}	
+
 }
