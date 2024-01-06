@@ -1,4 +1,4 @@
-package merge
+package list_node
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/joaofilippe/americanas-desafio/models"
 )
+
 
 // MergeListNode merge two sorted linked lists and return it as a sorted list.
 func MergeListNode(list1, list2 *models.ListNode) *models.ListNode {
