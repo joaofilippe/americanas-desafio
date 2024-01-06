@@ -16,7 +16,7 @@ type Repository struct {
 // Config is a struct to hold the database configuration
 type Config struct {
 	Host       string
-	Port       int
+	Port       string
 	User       string
 	Password   string
 	DbName     string
@@ -27,7 +27,7 @@ type Config struct {
 
 // NewRepository returns a new Repository
 func NewRepository(config Config) *Repository {
-	stringConn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+	stringConn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		config.Host,
 		config.Port,
 		config.User,
