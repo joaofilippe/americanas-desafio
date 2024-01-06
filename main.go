@@ -4,14 +4,21 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/joho/godotenv"
+
 	"github.com/joaofilippe/americanas-desafio/api"
 	"github.com/joaofilippe/americanas-desafio/repository"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+
 	repository := getRepository()
 
-	err := repository.Db.Ping()
+	err = repository.Db.Ping()
 	if err != nil {
 		panic(err)
 	} else {
