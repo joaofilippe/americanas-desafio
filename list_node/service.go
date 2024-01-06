@@ -1,15 +1,22 @@
-package list_node
+package listNode
 
-type ListNode struct {
+import (
+	"github.com/joaofilippe/americanas-desafio/interfaces"
+	"github.com/joaofilippe/americanas-desafio/models"
+)
 
+// ListNode is a struct to the service
+type ListNodeService struct {
+	Service    interfaces.IListNodeService
+	Repository interfaces.IListNodeRepository
 }
 
 // SaveListsNode save two lists in database
-func (l *ListNode) SaveListsNode(list1, list2 *ListNode) *ListNode {
+func (l *ListNodeService) SaveListsNode(list1, list2 *models.ListNode) *models.ListNode {
 	return nil
 }
 
 // MergeListNode merge two sorted linked lists and return it as a sorted list.
-func (l *ListNode) MergeListNode(list1, list2 *ListNode) *ListNode {
+func (l *ListNodeService) MergeListNode(list1, list2 *models.ListNode) *models.ListNode {
 	return nil
 }
