@@ -1,6 +1,12 @@
-package main
+package merge
 
-import "github.com/joaofilippe/americanas-desafio/models"
+import (
+	"fmt"
+	"strconv"
+	"strings"
+
+	"github.com/joaofilippe/americanas-desafio/models"
+)
 
 // MergeListNode merge two sorted linked lists and return it as a sorted list.
 func MergeListNode(list1, list2 *models.ListNode) *models.ListNode {
@@ -51,4 +57,50 @@ func FromListNodeToArray(list *models.ListNode) []int {
 	}
 
 	return array
+}
+
+func FromListNodeToString(list *models.ListNode) string {
+	array := make([]int, 0)
+
+	for list != nil {
+		array = append(array, list.Val)
+		list = list.Next
+	}
+	
+	var stringArray string
+	for i, v := range array {
+		if i == len(array)-1 {
+			stringArray += fmt.Sprintf("%d", v)
+			break
+		}
+
+		stringArray += fmt.Sprintf("%d,", v)
+	}
+
+	return stringArray
+}
+
+// FromStringToListNode convert a string to a ListNode
+func FromStringToListNode(stringArray string) *models.ListNode {
+	array := make([]int, 0)
+
+	arrayString := strings.Split(stringArray, ",")
+
+	for _, value := range arrayString {
+		v, err := strconv.Atoi(value)
+		if err != nil {
+			panic(err)
+		}
+		array = append(array, v)
+	}
+
+	list := new(models.ListNode)
+	temp := list
+
+	for _, value := range array {
+		temp.Next = &models.ListNode{Val: value}
+		temp = temp.Next
+	}
+
+	return list.Next
 }
