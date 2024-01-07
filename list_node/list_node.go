@@ -85,6 +85,7 @@ func FromListNodeToString(list *models.ListNode) string {
 func FromStringToListNode(stringArray string) *models.ListNode {
 	array := make([]int, 0)
 
+	stringArray = strings.Trim(stringArray, "{}")
 	arrayString := strings.Split(stringArray, ",")
 
 	for _, value := range arrayString {

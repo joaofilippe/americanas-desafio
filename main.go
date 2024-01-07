@@ -7,10 +7,12 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/joaofilippe/americanas-desafio/api"
+	listNode "github.com/joaofilippe/americanas-desafio/list_node"
 	"github.com/joaofilippe/americanas-desafio/repository"
 )
 
 func main() {
+	// Load environment variables
 	err := godotenv.Load()
 	if err != nil {
 		panic(err)
@@ -18,11 +20,8 @@ func main() {
 
 	repository := getRepository()
 
-	err = repository.Db.Ping()
-	if err != nil {
-		panic(err)
-	} else {
-		fmt.Println("Connected to database")
+	service := listNode.Service{
+		Repository: repository,
 	}
 
 	api.Server().Run(":8080")

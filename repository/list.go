@@ -6,7 +6,7 @@ import (
 )
 
 // SelectLists is a function to select all lists from the database based on the id
-func (r *Repository) SelectLists(id int) ([]*models.ListNode, error) {
+func (r *Repository) SelectLists(id int64) ([]*models.ListNode, error) {
 	q := `
 	SELECT *
 	FROM public.list_node
