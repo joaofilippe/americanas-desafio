@@ -3,8 +3,8 @@ package repository
 import (
 	"github.com/lib/pq"
 
-	"github.com/joaofilippe/americanas-desafio/list_node"
-	"github.com/joaofilippe/americanas-desafio/models"
+	"github.com/joaofilippe/americanas-desafio/internal/list_node"
+	"github.com/joaofilippe/americanas-desafio/internal/models"
 )
 
 // SelectLists is a function to select all lists from the database based on the id

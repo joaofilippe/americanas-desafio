@@ -3,7 +3,7 @@ package listNode
 import (
 	"testing"
 
-	"github.com/joaofilippe/americanas-desafio/models"
+	"github.com/joaofilippe/americanas-desafio/internal/models"
 )
 
 func Test_FromArrayToListNode(t *testing.T) {

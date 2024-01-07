@@ -1,8 +1,8 @@
 package listNode
 
 import (
-	"github.com/joaofilippe/americanas-desafio/interfaces"
-	"github.com/joaofilippe/americanas-desafio/models"
+	"github.com/joaofilippe/americanas-desafio/internal/interfaces"
+	"github.com/joaofilippe/americanas-desafio/internal/models"
 )
 
 // Service is a struct to the service

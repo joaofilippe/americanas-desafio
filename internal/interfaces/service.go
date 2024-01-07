@@ -1,6 +1,6 @@
 package interfaces
 
-import "github.com/joaofilippe/americanas-desafio/models"
+import "github.com/joaofilippe/americanas-desafio/internal/models"
 
 // IListNodeService is an interface to the service
 type IListNodeService interface {

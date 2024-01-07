@@ -1,6 +1,6 @@
 package request
 
-import "github.com/joaofilippe/americanas-desafio/models"
+import "github.com/joaofilippe/americanas-desafio/internal/models"
 
 // SaveListsRequest is a request to save two lists
 type SaveListsRequest struct {

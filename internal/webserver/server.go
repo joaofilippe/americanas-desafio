@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joaofilippe/americanas-desafio/webserver/request"
-	"github.com/joaofilippe/americanas-desafio/interfaces"
+	"github.com/joaofilippe/americanas-desafio/internal/webserver/request"
+	"github.com/joaofilippe/americanas-desafio/internal/interfaces"
 )
 
 // WebApp is a simple struct

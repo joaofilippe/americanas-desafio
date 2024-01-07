@@ -1,6 +1,6 @@
 package interfaces
 
-import "github.com/joaofilippe/americanas-desafio/models"
+import "github.com/joaofilippe/americanas-desafio/internal/models"
 
 // IListNodeRepository is an interface to the repository
 type IListNodeRepository interface {
