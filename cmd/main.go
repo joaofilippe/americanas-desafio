@@ -5,14 +5,14 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/joaofilippe/americanas-desafio/api"
-	listNode "github.com/joaofilippe/americanas-desafio/list_node"
-	"github.com/joaofilippe/americanas-desafio/repository"
+	"github.com/joaofilippe/americanas-desafio/internal/webserver"
+	listNode "github.com/joaofilippe/americanas-desafio/internal/list_node"
+	"github.com/joaofilippe/americanas-desafio/internal/repository"
 )
 
 func main() {
 	// Load environment variables
-	err := godotenv.Load()
+	err := godotenv.Load("../config/.env")
 	if err != nil {
 		panic(err)
 	}
@@ -23,7 +23,7 @@ func main() {
 		Repository: repository,
 	}
 
-	webApp := api.WebApp{
+	webApp := webserver.WebApp{
 		Application: &service,
 	}
 

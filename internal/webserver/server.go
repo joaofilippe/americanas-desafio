@@ -1,10 +1,11 @@
-package api
+package webserver
 
 import (
+	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joaofilippe/americanas-desafio/api/requests"
+	"github.com/joaofilippe/americanas-desafio/webserver/request"
 	"github.com/joaofilippe/americanas-desafio/interfaces"
 )
 
@@ -37,9 +38,15 @@ func (w *WebApp) HelloWorld(c *gin.Context) {
 
 // SaveLists is a simple handler
 func (w *WebApp) SaveLists(c *gin.Context) {
-	l := new(requests.SaveListsRequest)
+	l := new(request.SaveListsRequest)
 
-	c.Bind(l)
+	err := c.Bind(l)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
 
 	id, err := w.Application.SaveListsNode(l.List1, l.List2)
 	if err != nil {
@@ -49,7 +56,7 @@ func (w *WebApp) SaveLists(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusCreated, gin.H{
 		"message": "it works",
 		"data":    id,
 		"lists":   l,
@@ -58,12 +65,27 @@ func (w *WebApp) SaveLists(c *gin.Context) {
 
 // MergeLists is a simple handler
 func (w *WebApp) MergeLists(c *gin.Context) {
-	id := c.Param("id")
+	idParam := c.Param("id")
 
-	strconv.Atoi(id)
+	id, err := strconv.ParseInt(idParam, 10, 64)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	list, err := w.Application.MergeListNode(id)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
 
 	c.JSON(200, gin.H{
-		"id": id,
+		"list": list,
 	})
 
 }
