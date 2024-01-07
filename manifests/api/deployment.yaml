@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: list-node
+spec:
+  selector:
+    matchLabels:
+      app: list-node
+  template:
+    metadata:
+      labels:
+        app: list-node
+    spec:
+      containers:
+      - name: myapp
+        image: joaofilippe/list-node:0.1.0
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: list-node-env
