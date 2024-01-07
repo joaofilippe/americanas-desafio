@@ -7,6 +7,27 @@ import (
 	"github.com/joaofilippe/americanas-desafio/internal/models"
 )
 
+// CreateListNodeTable is a function to create the list_node table in the database
+func (r *Repository) CreateListNodeTable() error {
+	q := `
+	CREATE TABLE IF NOT EXISTS public.table_name
+	(
+		id     bigint[] not null
+			constraint id_table_name_pk
+				primary key,
+		list_1 integer,
+		list_2 bigint[]
+	);
+	`
+
+	_, err := r.Db.Exec(q)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // SelectLists is a function to select all lists from the database based on the id
 func (r *Repository) SelectLists(id int64) ([]*models.ListNode, error) {
 	q := `

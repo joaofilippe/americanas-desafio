@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-
 	if os.Getenv("ENV") == "dev" {
 		// Load environment variables
 		err := godotenv.Load("../config/.env")
@@ -53,6 +52,7 @@ func getRepository() *repository.Repository {
 
 	repository := repository.NewRepository(configRepo)
 	repository.GetConnection()
+	repository.CreateListNodeTable()
 
 	return repository
 }
