@@ -3,36 +3,53 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/joaofilippe/americanas-desafio/api/requests"
+	"github.com/joaofilippe/americanas-desafio/interfaces"
 )
 
+// WebApp is a simple struct
+type WebApp struct{
+	Application interfaces.IListNodeService
+}
+
 // Server is a simple handler
-func Server() *gin.Engine {
+func (w *WebApp)Server() *gin.Engine {
 	r := gin.Default()
 
-	api := r.Group("/api")
-	listGroup := api.Group("/v1")
+	apiV1 := r.Group("/api/v1")
+	listGroup := apiV1.Group("/list")
 	{
-		listGroup.GET("/", HelloWorld)
-		listGroup.POST("/save_list", SaveLists)
+		listGroup.GET("/", w.HelloWorld)
+		listGroup.POST("/save_list", w.SaveLists)
 	}
 
 	return r
 }
 
 // HelloWorld is a simple handler
-func HelloWorld(c *gin.Context) {
+func (w *WebApp) HelloWorld(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "Hello World!",
 	})
 }
 
-func SaveLists(c *gin.Context) {
+// SaveLists is a simple handler
+func (w *WebApp) SaveLists(c *gin.Context) {
 	l := new(requests.SaveListsRequest)
 
 	c.Bind(l)
 
+	id, err := w.Application.SaveListsNode(l.List1, l.List2)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+
 	c.JSON(200, gin.H{
 		"message": "it works",
-		"data":    l,
+		"data":    id,
+		"lists":  l,
 	})
 }

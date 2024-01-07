@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -24,7 +23,11 @@ func main() {
 		Repository: repository,
 	}
 
-	api.Server().Run(":8080")
+	webApp := api.WebApp{
+		Application: &service,
+	}
+
+	webApp.Server().Run(":8080")
 }
 
 func getRepository() *repository.Repository {

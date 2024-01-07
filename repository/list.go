@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"github.com/lib/pq"
+
 	"github.com/joaofilippe/americanas-desafio/list_node"
 	"github.com/joaofilippe/americanas-desafio/models"
 )
@@ -29,15 +31,28 @@ func (r *Repository) InsertLists(list1, list2 models.ListNode) (int64, error) {
 	q := `
 	INSERT INTO public.list_node(
 		list_1, list_2)
-		VALUES ('{$1}', '{$2}');
+		VALUES ($1, $2);
 	`
-	l1 := listNode.FromListNodeToString(&list1)
-	l2 := listNode.FromListNodeToString(&list2)
+	l1 := listNode.FromListNodeToArray(&list1)
+	l2 := listNode.FromListNodeToArray(&list2)
 
-	result, err := r.Db.Exec(q, l1, l2)
+	_, err := r.Db.Exec(q, pq.Array(l1), pq.Array(l2))
 	if err != nil {
 		return 0, err
 	}
 
-	return result.LastInsertId()
+	var id int64
+	qLastID := `
+		SELECT id
+		FROM public.list_node
+		ORDER BY id DESC
+		LIMIT 1
+	`
+
+	err = r.Db.Get(&id, qLastID)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
 }
