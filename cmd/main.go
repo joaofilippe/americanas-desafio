@@ -5,16 +5,19 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/joaofilippe/americanas-desafio/internal/webserver"
 	listNode "github.com/joaofilippe/americanas-desafio/internal/list_node"
 	"github.com/joaofilippe/americanas-desafio/internal/repository"
+	"github.com/joaofilippe/americanas-desafio/internal/webserver"
 )
 
 func main() {
-	// Load environment variables
-	err := godotenv.Load("../config/.env")
-	if err != nil {
-		panic(err)
+
+	if os.Getenv("ENV") == "dev" {
+		// Load environment variables
+		err := godotenv.Load("../config/.env")
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	repository := getRepository()
