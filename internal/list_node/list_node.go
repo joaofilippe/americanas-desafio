@@ -106,3 +106,14 @@ func FromStringToListNode(stringArray string) *models.ListNode {
 
 	return list.Next
 }
+
+func ValidateSorted(list *models.ListNode) bool {
+	for list != nil && list.Next != nil {
+		if list.Val > list.Next.Val {
+			return false
+		}
+		list = list.Next
+	}
+
+	return true
+}
