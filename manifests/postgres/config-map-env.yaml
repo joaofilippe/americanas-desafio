@@ -4,4 +4,4 @@ metadata:
   name: postgres-config
   namespace: database
 data:
-  POSTGRES_DB: list_node
+  POSTGRES_DB: postgres

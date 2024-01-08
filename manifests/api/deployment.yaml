@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: list-node
+  namespace: api
 spec:
   selector:
     matchLabels:
       app: list-node
-      namespace: restapi
   template:
     metadata:
       labels:
@@ -14,9 +14,11 @@ spec:
     spec:
       containers:
       - name: list-node
-        image: joaofilippe/list-node:0.1.0
+        image: joaofilippe/list-node:0.1.4
         ports:
         - containerPort: 8080
         envFrom:
         - configMapRef:
             name: list-node-env
+        - secretRef:
+            name: list-node-secret

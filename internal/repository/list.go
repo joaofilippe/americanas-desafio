@@ -10,14 +10,15 @@ import (
 // CreateListNodeTable is a function to create the list_node table in the database
 func (r *Repository) CreateListNodeTable() error {
 	q := `
-	CREATE TABLE IF NOT EXISTS public.table_name
-	(
-		id     bigint[] not null
-			constraint id_table_name_pk
-				primary key,
-		list_1 integer,
-		list_2 bigint[]
-	);
+		CREATE TABLE IF NOT EXISTS public.list_node
+		(
+		    id     serial   not null
+		        constraint list_node_pk
+		            primary key,
+		    list_1 bigint[] not null,
+		    list_2 bigint[] not null,
+		    merged bigint[]
+		);
 	`
 
 	_, err := r.Db.Exec(q)

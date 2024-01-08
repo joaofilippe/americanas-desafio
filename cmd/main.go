@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -40,6 +41,13 @@ func getRepository() *repository.Repository {
 	dbName := os.Getenv("DB_NAME")
 	sslMode := os.Getenv("DB_SSLMODE")
 
+	fmt.Println("host: ", host)
+	fmt.Println("port: ", port)
+	fmt.Println("user: ", user)
+	fmt.Println("password: ", password)
+	fmt.Println("dbName: ", dbName)
+	fmt.Println("sslMode: ", sslMode)
+
 	configRepo := repository.Config{
 		Host:     host,
 		Port:     port,
@@ -52,7 +60,9 @@ func getRepository() *repository.Repository {
 
 	repository := repository.NewRepository(configRepo)
 	repository.GetConnection()
-	repository.CreateListNodeTable()
+	if err := repository.CreateListNodeTable(); err != nil {
+		fmt.Println(err)
+	}
 
 	return repository
 }

@@ -2,11 +2,9 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: list-node-env
-  namespace: restapi
+  namespace: api
 data:
-  DB_HOST: localhost
+  DB_HOST: postgres-service.database
   DB_PORT: "5432"
-  DB_USER: postgres
-  DB_PASSWORD: "12345678"
-  DB_NAME: list_node
+  DB_NAME: postgres
   DB_SSLMODE: disable
