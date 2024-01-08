@@ -12,7 +12,7 @@ spec:
         app: list-node
     spec:
       containers:
-      - name: myapp
+      - name: list-node
         image: joaofilippe/list-node:0.1.0
         ports:
         - containerPort: 8080
