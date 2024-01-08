@@ -6,6 +6,7 @@ spec:
   selector:
     matchLabels:
       app: list-node
+      namespace: restapi
   template:
     metadata:
       labels:

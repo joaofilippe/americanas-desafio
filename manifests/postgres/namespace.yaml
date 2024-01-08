@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: database
+  namespace: database
+spec: {}
+status: {}
