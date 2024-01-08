@@ -2,9 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: list-node-env
-  namespace: api
 data:
-  DB_HOST: postgres-service.database
+  DB_HOST: postgres-service
   DB_PORT: "5432"
-  DB_NAME: postgres
+  DB_NAME: list_node
   DB_SSLMODE: disable
