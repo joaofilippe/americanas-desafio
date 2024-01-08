@@ -25,10 +25,15 @@ func (s *Service) SaveListsNode(list1, list2 *models.ListNode) (int64, error) {
 func (s *Service) MergeListNode(id int64) (*models.ListNode,error) {
 	lists, err := s.Repository.SelectLists(id)
 	if err != nil {
-		return &models.ListNode{}, err
+		return nil, err
 	}
 
 	mergedList := MergeListNode(lists[0], lists[1])
+
+	err = s.Repository.UpdateMergedList(*mergedList, id)
+	if err != nil {
+		return nil, err
+	}
 
 	return mergedList, nil
 }

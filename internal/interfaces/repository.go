@@ -6,4 +6,5 @@ import "github.com/joaofilippe/americanas-desafio/internal/models"
 type IListNodeRepository interface {
 	SelectLists(id int64) ([]*models.ListNode, error)
 	InsertLists(list1, list2 models.ListNode) (int64, error)
+	UpdateMergedList(mergedList models.ListNode, id int64) error
 }

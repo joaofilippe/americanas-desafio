@@ -78,3 +78,19 @@ func (r *Repository) InsertLists(list1, list2 models.ListNode) (int64, error) {
 
 	return id, nil
 }
+
+func (r *Repository) UpdateMergedList(mergedList models.ListNode, id int64) error {
+	q := `
+		UPDATE public.list_node
+		SET merged = $1
+		WHERE id = $2;
+	`
+	ml := listNode.FromListNodeToArray(&mergedList)
+
+	_, err := r.Db.Exec(q, pq.Array(ml), id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
