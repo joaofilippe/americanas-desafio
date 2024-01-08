@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jmoiron/sqlx"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
 // Repository is a struct to hold the database connection
@@ -20,18 +20,20 @@ type Config struct {
 	User       string
 	Password   string
 	DbName     string
+	SSLMode    string
 	Driver     string
 	StringConn string
 }
 
 // NewRepository returns a new Repository
 func NewRepository(config Config) *Repository {
-	stringConn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
-		config.User,
-		config.Password,
+	stringConn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		config.Host,
 		config.Port,
+		config.User,
+		config.Password,
 		config.DbName,
+		config.SSLMode,
 	)
 
 	config.StringConn = stringConn
