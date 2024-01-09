@@ -54,6 +54,46 @@ Caso seja pelo debug do VS-Code, o arquivo deverá obedecer os arquivos na pasta
 
 ## Testes
 
-Os testes foram centrados nas funcionalidades principais do programa, que seria mergear, verificar e processar as listas.
+Os testes foram centrados nas funcionalidades principais do programa, que seria mergear, verificar e processar as listas, bem como seus services.
 
 Para rodá-los, basta aplicar o comando `go test ./...`
+
+## API
+
+### Endpoints
+
+**SAVE_LISTS**
+
+* Endpoint: `{{HOST}}/api/v1/list/save_list`;
+
+* Request Body: 
+  
+  ```json
+  {
+      "type": "node",
+      "list1": {
+          "val": 1,
+          "next": {
+              "val": 7,
+              "next": {
+                  "val": 9
+              }
+          }
+      },
+      "list2": {
+          "val": 5,
+          "next": {
+              "val": 5,
+              "next": {
+                  "val": 11
+              }
+          }
+      }
+  }
+  ```
+
+* Response:
+  
+  ```json
+
+**MERGE**
