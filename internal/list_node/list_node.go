@@ -1,4 +1,4 @@
-package listNode
+package listnode
 
 import (
 	"fmt"

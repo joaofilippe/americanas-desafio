@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/lib/pq"
 
+	"github.com/joaofilippe/americanas-desafio/internal/common"
 	"github.com/joaofilippe/americanas-desafio/internal/list_node"
 	"github.com/joaofilippe/americanas-desafio/internal/models"
 )
@@ -42,23 +43,31 @@ func (r *Repository) SelectLists(id int64) ([]*models.ListNode, error) {
 		return nil, err
 	}
 
-	list1 := listNode.FromStringToListNode(listsDB[0].List1.String)
-	list2 := listNode.FromStringToListNode(listsDB[0].List2.String)
+	list1 := listnode.FromStringToListNode(listsDB[0].List1.String)
+	list2 := listnode.FromStringToListNode(listsDB[0].List2.String)
 
 	return []*models.ListNode{list1, list2}, nil
 }
 
 // InsertLists is a function to insert a list into the database
-func (r *Repository) InsertLists(list1, list2 models.ListNode) (int64, error) {
+func (r *Repository) InsertLists(lists []*models.ListNode) (int64, error) {
 	q := `
 	INSERT INTO public.list_node(
 		list_1, list_2)
 		VALUES ($1, $2);
 	`
-	l1 := listNode.FromListNodeToArray(&list1)
-	l2 := listNode.FromListNodeToArray(&list2)
 
-	_, err := r.Db.Exec(q, pq.Array(l1), pq.Array(l2))
+	if len(lists) != 2 {
+		return 0, common.ErrInvalidNumberOfLists
+	}
+
+	var arrays [][]int
+	for _, list := range lists {
+		array := listnode.FromListNodeToArray(list)
+		arrays = append(arrays, array)
+	}
+
+	_, err := r.Db.Exec(q, pq.Array(arrays[0]), pq.Array(arrays[1]))
 	if err != nil {
 		return 0, err
 	}
@@ -79,13 +88,14 @@ func (r *Repository) InsertLists(list1, list2 models.ListNode) (int64, error) {
 	return id, nil
 }
 
+// UpdateMergedList is a function to update the merged list in the database
 func (r *Repository) UpdateMergedList(mergedList models.ListNode, id int64) error {
 	q := `
 		UPDATE public.list_node
 		SET merged = $1
 		WHERE id = $2;
 	`
-	ml := listNode.FromListNodeToArray(&mergedList)
+	ml := listnode.FromListNodeToArray(&mergedList)
 
 	_, err := r.Db.Exec(q, pq.Array(ml), id)
 	if err != nil {

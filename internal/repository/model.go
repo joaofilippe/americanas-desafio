@@ -7,5 +7,5 @@ type ListsDB struct {
 	ID     sql.NullInt64  `db:"id"`
 	List1  sql.NullString `db:"list_1"`
 	List2  sql.NullString `db:"list_2"`
-	Merged sql.NullString `db:"merged_list"`
+	Merged sql.NullString `db:"merged"`
 }

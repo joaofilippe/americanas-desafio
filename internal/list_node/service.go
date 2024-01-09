@@ -1,4 +1,4 @@
-package listNode
+package listnode
 
 import (
 	"github.com/joaofilippe/americanas-desafio/internal/common"
@@ -24,7 +24,7 @@ func (s *Service) SaveListsNode(list1, list2 *models.ListNode) (int64, error) {
 		return 0, common.ErrListNotSorted
 	}
 
-	id, err := s.Repository.InsertLists(*list1, *list2)
+	id, err := s.Repository.InsertLists([]*models.ListNode{list1, list2})
 	if err != nil {
 		return 0, err
 	}

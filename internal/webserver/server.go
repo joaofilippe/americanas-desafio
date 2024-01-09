@@ -5,8 +5,11 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joaofilippe/americanas-desafio/internal/webserver/request"
+	"github.com/joaofilippe/americanas-desafio/internal/common"
 	"github.com/joaofilippe/americanas-desafio/internal/interfaces"
+	"github.com/joaofilippe/americanas-desafio/internal/models"
+	"github.com/joaofilippe/americanas-desafio/internal/webserver/request"
+	"github.com/joaofilippe/americanas-desafio/internal/webserver/response"
 )
 
 // WebApp is a simple struct
@@ -42,25 +45,30 @@ func (w *WebApp) SaveLists(c *gin.Context) {
 
 	err := c.Bind(l)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"message": err.Error(),
+		c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Code: http.StatusBadRequest,
+			ErrorMessage:  common.ErrMsgContentNotBinded,
+			Data: err,
 		})
 		return
 	}
 
 	id, err := w.Application.SaveListsNode(l.List1, l.List2)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"message": err.Error(),
+		c.JSON(500, response.ErrorResponse{
+			Code: http.StatusInternalServerError,
+			ErrorMessage: common.ErrMsgCannotSaveLists,
+			Data: err,
 		})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "it works",
-		"data":    id,
-		"lists":   l,
-	})
+	c.JSON(http.StatusCreated, 
+		response.Response{
+			Code: http.StatusCreated,
+			Message: "Lists saved successfully. Follow the id to merge the lists.",
+			Data: id,
+		})
 }
 
 // MergeLists is a simple handler
@@ -77,15 +85,24 @@ func (w *WebApp) MergeLists(c *gin.Context) {
 
 	list, err := w.Application.MergeListNode(id)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"message": err.Error(),
+		c.JSON(500, response.ErrorResponse{
+			Code: http.StatusInternalServerError,
+			ErrorMessage: common.ErrMsgCannotMergeLists,
+			Data: err,
 		})
 		return
 	}
 
 
-	c.JSON(200, gin.H{
-		"list": list,
-	})
+	c.JSON(http.StatusCreated, 
+		response.Response{
+			Code: http.StatusCreated,
+			Message: "Lists had merged succesfully.",
+			Data: struct{
+				MergedList *models.ListNode `json:"merged_list"`
+			}{
+				MergedList: list,
+			},
+		})
 
 }

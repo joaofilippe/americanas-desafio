@@ -1,4 +1,4 @@
-package listNode
+package listnode
 
 import (
 	"testing"
@@ -99,7 +99,7 @@ func Test_FromListNodeToString(t *testing.T) {
 }
 
 func Test_FromStringToListNode(t *testing.T) {
-	a := "1,2,3"
+	a := "{1,2,3}"
 
 	list := FromStringToListNode(a)
 
