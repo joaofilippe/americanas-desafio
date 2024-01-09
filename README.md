@@ -8,7 +8,11 @@ O desafio consistiu em 3 etapas:
 
 3. Expor alguma forma de rodar e testá-los;
 
-O código foi escrito em Golang, utilizando o framework Gin junto ao pacote net/http. Foi utilizado um banco de dados Postgres para o armazenamento das listas e posterior consulta. A tecnologia foi escolhida justamente por suportar o armazenamento de arrays de inteiros.
+O código foi escrito em Golang, utilizando o framework Gin junto ao pacote `net/http`. 
+
+Foi utilizado um banco de dados Postgres para o armazenamento das listas e posterior consulta. A tecnologia foi escolhida justamente por suportar o armazenamento de arrays de inteiros.
+
+Para os testes, contamos com a ajuda das ferramentas `Testify`  e `Mockery` para ajudar na organização do código e potencialização do pacote `testing` da biblioteca padrão.
 
 Infelizmente, não foi possível orquestrar com Kubernetes a conexão da aplicação com o banco de dados. Porém, caso não se tenha configurado um servidor Postgres para ser utiilizado, foi disponibilizado um compose-file para rodar via container.
 
@@ -18,6 +22,8 @@ Todavia, a aplicação roda normalmente em Kubernetes, podendo fazer uso dos rec
 
 A configuração da aplicação deverá seguir os seguintes parâmetros:
 
+---
+
 ```js
 DB_HOST={HOST}
 DB_PORT={PORT}
@@ -25,14 +31,16 @@ DB_USER={USER}
 DB_PASSWORD={PASSWORD}
 DB_NAME={DATABASE}
 DB_SSLMODE=disable
-ENV=dev
+PORT={PORT}
 ```
+
+---
 
 A configuração deverá ser salva em um arquivo `.env` e armazenado na pasta `/config`.
 
 O argumento do modo de execução deverá ser passado no momento da execução.
 
- Caso seja por meio do go run, o comando será: `go run ./cmd/main.go run-mode`.
+Caso seja por meio do go run, o comando será: `go run ./cmd/main.go run-mode`.
 
 Caso seja pelo debug do VS-Code, o arquivo deverá obedecer os arquivos na pasta `.vs-code` que está disponível no repositório, de acordo com o sistema operacional.
 
@@ -40,7 +48,7 @@ Caso seja pelo debug do VS-Code, o arquivo deverá obedecer os arquivos na pasta
 
 Os testes foram centrados nas funcionalidades principais do programa, que seria mergear, verificar e processar as listas, bem como seus services.
 
-Para rodá-los, basta aplicar o comando `go test ./...`
+Para rodá-los, basta aplicar o comando `go test ./...`.
 
 ## API
 
@@ -51,8 +59,10 @@ Para rodá-los, basta aplicar o comando `go test ./...`
 * Endpoint: `{{HOST}}/api/v1/list/save_list`;
 
 * Request Body: 
-  
-  ```json
+
+---
+
+```json
   {
       "type": "node",
       "list1": {
@@ -74,17 +84,23 @@ Para rodá-los, basta aplicar o comando `go test ./...`
           }
       }
   }
-  ```
+```
+
+---
 
 * Response:
-  
-  ```json
+
+---
+
+```json
   {
       "code": 201,
       "message": "Lists saved successfully. Follow the id to merge the lists.",
       "data": 1
   }
-  ```
+```
+
+---
 
 **MERGE**
 
@@ -95,8 +111,10 @@ Para rodá-los, basta aplicar o comando `go test ./...`
   * Example: `{{HOST}}/api/v1/list/merge/1`
 
 * Response:
-  
-  ```json
+
+---
+
+```json
   {
       "code": 201,
       "message": "Lists had merged succesfully.",
@@ -122,4 +140,16 @@ Para rodá-los, basta aplicar o comando `go test ./...`
           }
       }
   }
-  ```
+```
+
+---
+
+## Sugestões de Testes
+
+1. Enviar duas listas ordenadas pela rota `save_lists`. O resultado será o id pelo qual você irá consultar a lista mergeada. Num primeiro momento, essa lista será mergeada, devolvida para o usuário e, depois, salva no banco de dados.
+
+2. Com o mesmo id reconsultar essa lista. Dessa vez, ela será trazida do banco de dados, e a operação de mergeamento não será mais realizada. 
+
+3. Ainda na rota de `merge`, consultar um id inexistente. Irá retornar que não pode consultar.
+
+4. Também poderá ser feita uma tentativa de enviar uma ou mais listas não ordenadas,  o que o programa não irá aceitar.

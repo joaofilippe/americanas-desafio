@@ -51,6 +51,11 @@ func (r *Repository) SelectLists(id int64) ([]*models.ListNode, error) {
 	
 	list1 := listnode.FromStringToListNode(listsDB[0].List1.String)
 	list2 := listnode.FromStringToListNode(listsDB[0].List2.String)
+	
+	if listsDB[0].Merged.Valid {
+		merged := listnode.FromStringToListNode(listsDB[0].Merged.String)
+		return []*models.ListNode{list1, list2, merged}, nil
+	}
 
 	return []*models.ListNode{list1, list2}, nil
 }

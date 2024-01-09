@@ -20,7 +20,7 @@ func (w *WebApp) SaveLists(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Code: http.StatusBadRequest,
 			ErrorMessage:  common.ErrMsgContentNotBinded,
-			Data: err,
+			Data: err.Error(),
 		})
 		return
 	}
@@ -30,7 +30,7 @@ func (w *WebApp) SaveLists(c *gin.Context) {
 		c.JSON(500, response.ErrorResponse{
 			Code: http.StatusInternalServerError,
 			ErrorMessage: common.ErrMsgCannotSaveLists,
-			Data: err,
+			Data: err.Error(),
 		})
 		return
 	}
@@ -60,7 +60,7 @@ func (w *WebApp) MergeLists(c *gin.Context) {
 		c.JSON(500, response.ErrorResponse{
 			Code: http.StatusInternalServerError,
 			ErrorMessage: common.ErrMsgCannotMergeLists,
-			Data: err,
+			Data: err.Error(),
 		})
 		return
 	}

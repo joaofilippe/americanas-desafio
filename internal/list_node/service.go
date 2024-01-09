@@ -40,6 +40,10 @@ func (s *Service) GetMergedListNode(id int64) (*models.ListNode, error) {
 	if err != nil {
 		return nil, errors.New("error on select lists - " + err.Error())
 	}
+
+	if len(lists) > 2 && lists[2] != nil {
+		return lists[2], nil
+	}
 	
 	mergedList := MergeListNode(lists[0], lists[1])
 
