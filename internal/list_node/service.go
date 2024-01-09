@@ -6,7 +6,7 @@ import (
 	"github.com/joaofilippe/americanas-desafio/internal/models"
 )
 
-// Service is a struct to the service
+// Service is a struct to be used as a service
 type Service struct {
 	Service    interfaces.IListNodeService
 	Repository interfaces.IListNodeRepository
