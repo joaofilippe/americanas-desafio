@@ -4,115 +4,163 @@ import (
 	"testing"
 
 	"github.com/joaofilippe/americanas-desafio/internal/models"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_FromArrayToListNode(t *testing.T) {
-	a := []int{1, 2, 3}
+	assert := assert.New(t)
 
-	b := []int{0, 6, 8}
-	
-	list := FromArrayToListNode(a)
-	list2 := FromArrayToListNode(b)
-
-	if list.Val != 1 {
-		t.Errorf("Expected 1, got %d", list.Val)
+	slices := [][]int{
+		{1, 2, 3},
+		{5, 6, 8},
+		{1, 2, 3, 4, 5, 6, 7, 8, 9},
+		{1},
+		{10, 12, 11},
 	}
 
-	if list.Next.Val != 2 {
-		t.Errorf("Expected 2, got %d", list.Next.Val)
+	for _, list := range slices {
+		listNode := FromArrayToListNode(list)
+		CheckListNodeFromSlice(assert, listNode, list)
 	}
-
-	if list.Next.Next.Val != 3 {
-		t.Errorf("Expected 3, got %d", list.Next.Next.Val)
-	}
-
-	if list2.Val != 0 {
-		t.Errorf("Expected 0, got %d", list2.Val)
-	}
-
-	if list2.Next.Val != 6 {
-		t.Errorf("Expected 6, got %d", list2.Next.Val)
-	}
-
-	if list2.Next.Next.Val != 8 {
-		t.Errorf("Expected 8, got %d", list2.Next.Next.Val)
-	}
-
 }
 
 func Test_FromListNodeToArray(t *testing.T) {
-	a := &models.ListNode{
-		Val: 5,
-		Next: &models.ListNode{
-			Val: 6,
+	assert := assert.New(t)
+	listNodes := []*models.ListNode{
+		&models.ListNode{
+			Val: 1,
 			Next: &models.ListNode{
-				Val: 8,
-			},
-		}}
-
-	array := FromListNodeToArray(a)
-
-	if array[0] != 5 {
-		t.Errorf("Expected 5, got %d", array[0])
+				Val: 2,
+				Next: &models.ListNode{
+					Val: 3,
+				},
+			}},
+		&models.ListNode{
+			Val: 5,
+			Next: &models.ListNode{
+				Val: 6,
+				Next: &models.ListNode{
+					Val: 8,
+				},
+			}},
+		&models.ListNode{
+			Val: 1,
+			Next: &models.ListNode{
+				Val: 2,
+				Next: &models.ListNode{
+					Val: 3,
+					Next: &models.ListNode{
+						Val: 4,
+						Next: &models.ListNode{
+							Val: 5,
+							Next: &models.ListNode{
+								Val: 6,
+							},
+						},
+					},
+				},
+			}},
+		&models.ListNode{
+			Val: 1,
+		},
+		&models.ListNode{
+			Val: 10,
+			Next: &models.ListNode{
+				Val: 12,
+				Next: &models.ListNode{
+					Val: 11,
+				},
+			}},
 	}
 
-	if array[1] != 6 {
-		t.Errorf("Expected 6, got %d", array[1])
+	for _, list := range listNodes {
+		slices := FromListNodeToArray(list)
+		CheckSliceFromListNode(assert, slices, list)
 	}
-
-	if array[2] != 8 {
-		t.Errorf("Expected 8, got %d", array[2])
-	}
-
 }
 
 func Test_MergeList(t *testing.T) {
-	a := []int{2, 3, 4}
-	b := []int{1, 4, 6}
+	tests := []struct {
+		listA    []int
+		listB    []int
+		expected []int
+	}{
+		{
+			listA:    []int{1, 2, 3},
+			listB:    []int{5, 6, 8},
+			expected: []int{1, 2, 3, 5, 6, 8},
+		},
+		{
+			listA:    []int{1, 2, 8, 9},
+			listB:    []int{5, 6, 10},
+			expected: []int{1, 2, 5, 6, 8, 9, 10},
+		},
+		{
+			listA:    []int{11, 40, 100},
+			listB:    []int{5, 6, 10},
+			expected: []int{5, 6, 10, 11, 40, 100},
+		},
+	}
 
-	c := []int{1, 2, 3, 4, 4, 6}
+	for _, test := range tests {
+		listNodeA := FromArrayToListNode(test.listA)
+		listNodeB := FromArrayToListNode(test.listB)
 
-	listA := FromArrayToListNode(a)
-	listB := FromArrayToListNode(b)
+		merged := MergeListNode(listNodeA, listNodeB)
+		slice := FromListNodeToArray(merged)
 
-	merged := MergeListNode(listA, listB)
-
-	array := FromListNodeToArray(merged)
-
-	for i, v := range array {
-		if v != c[i] {
-			t.Errorf("Expected %d, got %d", c[i], v)
+		for i, v := range slice {
+			if v != test.expected[i] {
+				t.Errorf("Expected %d, got %d", test.expected[i], v)
+			}
 		}
 	}
+
 }
 
 func Test_FromListNodeToString(t *testing.T) {
-	a := []int{1, 2, 3}
+	assert := assert.New(t)
 
-	list := FromArrayToListNode(a)
+	tests := []struct {
+		slice    []int
+		expected string
+	}{
+		{slice: []int{1, 2, 3}, expected: "1,2,3"},
+		{slice: []int{5, 6, 8}, expected: "5,6,8"},
+		{slice: []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, expected: "1,2,3,4,5,6,7,8,9"},
+		{slice: []int{1}, expected: "1"},
+		{slice: []int{10, 12, 11}, expected: "10,12,11"},
+	}
 
-	stringList := FromListNodeToString(list)
+	for _, test := range tests {
+		listNode := FromArrayToListNode(test.slice)
+		stringList := FromListNodeToString(listNode)
 
-	if stringList != "1,2,3" {
-		t.Errorf("Expected '1,2,3', got %s", stringList)
+		assert.Equal(test.expected, stringList, "Expected %s, got %s", test.expected, stringList)
 	}
 }
 
 func Test_FromStringToListNode(t *testing.T) {
-	a := "{1,2,3}"
+	assert := assert.New(t)
 
-	list := FromStringToListNode(a)
-
-	if list.Val != 1 {
-		t.Errorf("Expected 1, got %d", list.Val)
+	tests := []struct {
+		str      string
+		expected []int
+	}{
+		{str: "{1,2,3}", expected: []int{1, 2, 3}},
+		{str: "{5,6,8}", expected: []int{5, 6, 8}},
+		{str: "{1,2,5,7,8,9}", expected: []int{1, 2, 5, 7, 8, 9}},
+		{str: "{1}", expected: []int{1}},
+		{str: "{10,12,11}", expected: []int{10, 12, 11}},
 	}
 
-	if list.Next.Val != 2 {
-		t.Errorf("Expected 2, got %d", list.Next.Val)
-	}
+	for _, test := range tests {
+		listNode := FromStringToListNode(test.str)
+		slice := FromListNodeToArray(listNode)
 
-	if list.Next.Next.Val != 3 {
-		t.Errorf("Expected 3, got %d", list.Next.Next.Val)
+		for i, v := range slice {
+			assert.Equal(test.expected[i], v, "Expected %d, got %d", test.expected[i], v)
+		}
 	}
 }
 
@@ -126,4 +174,30 @@ func Test_ValidateSorted(t *testing.T) {
 	if !valid {
 		t.Errorf("Expected true, got %t", valid)
 	}
+}
+
+func CheckListNodeFromSlice(assert *assert.Assertions, list *models.ListNode, expected []int) {
+	for _, v := range expected {
+		assert.Equal(v, list.Val, "Expected %d, got %d", v, list.Val)
+
+		if list.Next != nil {
+			list = list.Next
+		} else {
+			break
+		}
+	}
+
+}
+
+func CheckSliceFromListNode(assert *assert.Assertions, slice []int, expected *models.ListNode) {
+	for _, v := range slice {
+		assert.Equal(expected.Val, v, "Expected %d, got %d", expected.Val, v)
+
+		if expected.Next != nil {
+			expected = expected.Next
+		} else {
+			break
+		}
+	}
+
 }

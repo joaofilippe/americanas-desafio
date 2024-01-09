@@ -85,7 +85,7 @@ func FromListNodeToString(list *models.ListNode) string {
 func FromStringToListNode(stringArray string) *models.ListNode {
 	array := make([]int, 0)
 
-	stringArray = strings.Trim(stringArray, "{}")
+	stringArray = strings.Trim(stringArray, "[{}]")
 	arrayString := strings.Split(stringArray, ",")
 
 	for _, value := range arrayString {
@@ -107,6 +107,7 @@ func FromStringToListNode(stringArray string) *models.ListNode {
 	return list.Next
 }
 
+// ValidateSorted validate if a ListNode is sorted
 func ValidateSorted(list *models.ListNode) bool {
 	for list != nil && list.Next != nil {
 		if list.Val > list.Next.Val {
