@@ -79,5 +79,47 @@ Para rodá-los, basta aplicar o comando `go test ./...`
 * Response:
   
   ```json
+  {
+      "code": 201,
+      "message": "Lists saved successfully. Follow the id to merge the lists.",
+      "data": 1
+  }
+  ```
 
 **MERGE**
+
+* Endpoints: `{{HOST}}/api/v1/list/merge/:list_id`
+  
+  * Params: `:list-id`
+  
+  * Example: `{{HOST}}/api/v1/list/merge/1`
+
+* Response:
+  
+  ```json
+  {
+      "code": 201,
+      "message": "Lists had merged succesfully.",
+      "data": {
+          "merged_list": {
+              "Val": 1,
+              "Next": {
+                  "Val": 5,
+                  "Next": {
+                      "Val": 5,
+                      "Next": {
+                          "Val": 7,
+                          "Next": {
+                              "Val": 9,
+                              "Next": {
+                                  "Val": 11,
+                                  "Next": null
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  }
+  ```
