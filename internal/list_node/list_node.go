@@ -35,8 +35,8 @@ func MergeListNode(list1, list2 *models.ListNode) *models.ListNode {
 	return list.Next
 }
 
-// FromArrayToListNode convert an array to a ListNode
-func FromArrayToListNode(array []int) *models.ListNode {
+// FromSliceToListNode convert an slice to a ListNode
+func FromSliceToListNode(array []int) *models.ListNode {
 	list := new(models.ListNode)
 	temp := list
 
@@ -48,8 +48,8 @@ func FromArrayToListNode(array []int) *models.ListNode {
 	return list.Next
 }
 
-// FromListNodeToArray convert a ListNode to an array
-func FromListNodeToArray(list *models.ListNode) []int {
+// FromListNodeToSlice convert a ListNode to an array
+func FromListNodeToSlice(list *models.ListNode) []int {
 	array := make([]int, 0)
 
 	for list != nil {
@@ -60,6 +60,7 @@ func FromListNodeToArray(list *models.ListNode) []int {
 	return array
 }
 
+// FromListNodeToString convert a ListNode to a string
 func FromListNodeToString(list *models.ListNode) string {
 	array := make([]int, 0)
 

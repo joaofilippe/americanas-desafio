@@ -19,7 +19,7 @@ func Test_FromArrayToListNode(t *testing.T) {
 	}
 
 	for _, list := range slices {
-		listNode := FromArrayToListNode(list)
+		listNode := FromSliceToListNode(list)
 		CheckListNodeFromSlice(assert, listNode, list)
 	}
 }
@@ -27,7 +27,7 @@ func Test_FromArrayToListNode(t *testing.T) {
 func Test_FromListNodeToArray(t *testing.T) {
 	assert := assert.New(t)
 	listNodes := []*models.ListNode{
-		&models.ListNode{
+		{
 			Val: 1,
 			Next: &models.ListNode{
 				Val: 2,
@@ -35,7 +35,7 @@ func Test_FromListNodeToArray(t *testing.T) {
 					Val: 3,
 				},
 			}},
-		&models.ListNode{
+		{
 			Val: 5,
 			Next: &models.ListNode{
 				Val: 6,
@@ -43,7 +43,7 @@ func Test_FromListNodeToArray(t *testing.T) {
 					Val: 8,
 				},
 			}},
-		&models.ListNode{
+		{
 			Val: 1,
 			Next: &models.ListNode{
 				Val: 2,
@@ -60,10 +60,10 @@ func Test_FromListNodeToArray(t *testing.T) {
 					},
 				},
 			}},
-		&models.ListNode{
+		{
 			Val: 1,
 		},
-		&models.ListNode{
+		{
 			Val: 10,
 			Next: &models.ListNode{
 				Val: 12,
@@ -74,7 +74,7 @@ func Test_FromListNodeToArray(t *testing.T) {
 	}
 
 	for _, list := range listNodes {
-		slices := FromListNodeToArray(list)
+		slices := FromListNodeToSlice(list)
 		CheckSliceFromListNode(assert, slices, list)
 	}
 }
@@ -103,11 +103,11 @@ func Test_MergeList(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		listNodeA := FromArrayToListNode(test.listA)
-		listNodeB := FromArrayToListNode(test.listB)
+		listNodeA := FromSliceToListNode(test.listA)
+		listNodeB := FromSliceToListNode(test.listB)
 
 		merged := MergeListNode(listNodeA, listNodeB)
-		slice := FromListNodeToArray(merged)
+		slice := FromListNodeToSlice(merged)
 
 		for i, v := range slice {
 			if v != test.expected[i] {
@@ -133,7 +133,7 @@ func Test_FromListNodeToString(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		listNode := FromArrayToListNode(test.slice)
+		listNode := FromSliceToListNode(test.slice)
 		stringList := FromListNodeToString(listNode)
 
 		assert.Equal(test.expected, stringList, "Expected %s, got %s", test.expected, stringList)
@@ -156,7 +156,7 @@ func Test_FromStringToListNode(t *testing.T) {
 
 	for _, test := range tests {
 		listNode := FromStringToListNode(test.str)
-		slice := FromListNodeToArray(listNode)
+		slice := FromListNodeToSlice(listNode)
 
 		for i, v := range slice {
 			assert.Equal(test.expected[i], v, "Expected %d, got %d", test.expected[i], v)
@@ -167,7 +167,7 @@ func Test_FromStringToListNode(t *testing.T) {
 func Test_ValidateSorted(t *testing.T) {
 	a := []int{1, 2, 3}
 
-	list := FromArrayToListNode(a)
+	list := FromSliceToListNode(a)
 
 	valid := ValidateSorted(list)
 

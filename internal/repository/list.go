@@ -63,7 +63,7 @@ func (r *Repository) InsertLists(lists []*models.ListNode) (int64, error) {
 
 	var arrays [][]int
 	for _, list := range lists {
-		array := listnode.FromListNodeToArray(list)
+		array := listnode.FromListNodeToSlice(list)
 		arrays = append(arrays, array)
 	}
 
@@ -95,7 +95,7 @@ func (r *Repository) UpdateMergedList(mergedList models.ListNode, id int64) erro
 		SET merged = $1
 		WHERE id = $2;
 	`
-	ml := listnode.FromListNodeToArray(&mergedList)
+	ml := listnode.FromListNodeToSlice(&mergedList)
 
 	_, err := r.Db.Exec(q, pq.Array(ml), id)
 	if err != nil {
