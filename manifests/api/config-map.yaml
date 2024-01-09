@@ -7,3 +7,4 @@ data:
   DB_PORT: "5432"
   DB_NAME: list_node
   DB_SSLMODE: disable
+  PORT: "3000"

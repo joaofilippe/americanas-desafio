@@ -11,9 +11,15 @@ import (
 )
 
 func main() {
-	if os.Getenv("ENV") == "dev" {
+	if os.Args[1] == "debug-mode" {
 		// Load environment variables
 		err := godotenv.Load("../config/.env")
+		if err != nil {
+			panic(err)
+		}
+	} else if os.Args[1] == "run-mode" {
+		// Load environment variables
+		err := godotenv.Load("config/.env")
 		if err != nil {
 			panic(err)
 		}
