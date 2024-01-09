@@ -1,6 +1,8 @@
 package listnode
 
 import (
+	"errors"
+
 	"github.com/joaofilippe/americanas-desafio/internal/common"
 	"github.com/joaofilippe/americanas-desafio/internal/interfaces"
 	"github.com/joaofilippe/americanas-desafio/internal/models"
@@ -32,18 +34,18 @@ func (s *Service) SaveListsNode(list1, list2 *models.ListNode) (int64, error) {
 	return id, nil
 }
 
-// MergeListNode merge two sorted linked lists and return it as a sorted list.
-func (s *Service) MergeListNode(id int64) (*models.ListNode, error) {
+// GetMergedListNode merge two sorted linked lists and return it as a sorted list.
+func (s *Service) GetMergedListNode(id int64) (*models.ListNode, error) {
 	lists, err := s.Repository.SelectLists(id)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("error on select lists - " + err.Error())
 	}
 
 	mergedList := MergeListNode(lists[0], lists[1])
 
 	err = s.Repository.UpdateMergedList(*mergedList, id)
 	if err != nil {
-		return nil, err
+		return nil, errors.New("error on update merged list - " + err.Error())
 	}
 
 	return mergedList, nil
