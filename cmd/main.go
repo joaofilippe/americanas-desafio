@@ -38,16 +38,14 @@ func getRepository() *repository.Repository {
 	user := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
 	dbName := os.Getenv("DB_NAME")
-	sslMode := os.Getenv("DB_SSLMODE")
 
 	configRepo := repository.Config{
 		Host:     host,
 		Port:     port,
 		User:     user,
 		Password: password,
-		Driver:   "postgres",
+		Driver:   "mysql",
 		DbName:   dbName,
-		SSLMode:  sslMode,
 	}
 
 	repository := repository.NewRepository(configRepo)
