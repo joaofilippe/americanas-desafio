@@ -55,7 +55,7 @@ func (w *WebApp) MergeLists(c *gin.Context) {
 		return
 	}
 
-	list, err := w.Application.MergeListNode(id)
+	list, err := w.Application.GetMergedListNode(id)
 	if err != nil {
 		c.JSON(500, response.ErrorResponse{
 			Code: http.StatusInternalServerError,

@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"database/sql"
+
 	"github.com/lib/pq"
 
 	"github.com/joaofilippe/americanas-desafio/internal/common"
@@ -39,10 +41,14 @@ func (r *Repository) SelectLists(id int64) ([]*models.ListNode, error) {
 	`
 	listsDB := []ListsDB{}
 	err := r.Db.Select(&listsDB, q, id)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		return nil, err
 	}
 
+	if len(listsDB) == 0 {
+		return nil, common.ErrListsNotFound
+	}
+	
 	list1 := listnode.FromStringToListNode(listsDB[0].List1.String)
 	list2 := listnode.FromStringToListNode(listsDB[0].List2.String)
 
