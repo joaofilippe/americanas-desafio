@@ -6,8 +6,12 @@ var (
 
 	// ErrListNotSorted is the error code for list not sorted
 	ErrListNotSorted        = errors.New("list not sorted")
+	
 	// ErrInvalidNumberOfLists is the error code for invalid number of lists
 	ErrInvalidNumberOfLists = errors.New("invalid number of lists")
+
+	// ErrListNotFound is the error code for lists not found
+	ErrListsNotFound		 = errors.New("lists not found")
 )
 
 const (

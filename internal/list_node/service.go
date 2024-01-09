@@ -40,7 +40,7 @@ func (s *Service) GetMergedListNode(id int64) (*models.ListNode, error) {
 	if err != nil {
 		return nil, errors.New("error on select lists - " + err.Error())
 	}
-
+	
 	mergedList := MergeListNode(lists[0], lists[1])
 
 	err = s.Repository.UpdateMergedList(*mergedList, id)

@@ -197,6 +197,26 @@ func Test_MergeListNode(t *testing.T){
 		repoMock := &mocks.IListNodeRepository{}
 		serviceMock := &mocks.IListNodeService{}
 
+		list1 := &models.ListNode{
+			Val: 1,
+			Next: &models.ListNode{
+				Val: 3,
+				Next: &models.ListNode{
+					Val: 3,
+				},
+			},
+		}
+
+		list2 := &models.ListNode{
+			Val: 2,
+			Next: &models.ListNode{
+				Val: 3,
+				Next: &models.ListNode{
+					Val: 4,
+				},
+			},
+		}
+
 		mergedList:= &models.ListNode{
 			Val: 1,
 			Next: &models.ListNode{
@@ -218,7 +238,7 @@ func Test_MergeListNode(t *testing.T){
 		
 		serviceMock.On("GetMergedListNode", mock.Anything).Return(mergedList, nil)
 
-		repoMock.On("SelectLists",mock.Anything).Return([]*models.ListNode{}, nil)
+		repoMock.On("SelectLists",mock.Anything).Return([]*models.ListNode{list1, list2}, nil)
 		repoMock.On("UpdateMergedList", mock.Anything, mock.Anything).Return(nil)
 		
 		service := Service{

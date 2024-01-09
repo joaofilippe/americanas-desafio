@@ -12,12 +12,12 @@ type IListNodeService struct {
 	mock.Mock
 }
 
-// MergeListNode provides a mock function with given fields: id
+// GetMergedListNode provides a mock function with given fields: id
 func (_m *IListNodeService) GetMergedListNode(id int64) (*models.ListNode, error) {
 	ret := _m.Called(id)
 
 	if len(ret) == 0 {
-		panic("no return value specified for MergeListNode")
+		panic("no return value specified for GetMergedListNode")
 	}
 
 	var r0 *models.ListNode
