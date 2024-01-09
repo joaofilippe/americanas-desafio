@@ -9,11 +9,6 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: list_node
     ports:
-      - 5432:5432
+      - 15432:5432
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-
-networks:
-  default:
-    name: local-network
-    external: true
+      - ./.data/postgres:/var/lib/postgresql/data

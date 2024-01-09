@@ -29,14 +29,12 @@ func main() {
 		Application: &service,
 	}
 
-	var port string
-	if port := os.Getenv("PORT"); port != "" {
-		port = ":" + port
-	} else {
-		port = ":8080"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
 	}
 
-	webApp.Server().Run(port)
+	webApp.Server().Run(":" + port)
 }
 
 func getRepository() *repository.Repository {
